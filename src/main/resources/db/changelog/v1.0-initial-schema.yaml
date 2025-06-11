@@ -1,0 +1,60 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-tables
+      author: lodepav
+      changes:
+        - createTable:
+            tableName: account
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: client_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: currency
+                  type: char(3)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: balance
+                  type: numeric(15,2)
+                  constraints:
+                    nullable: false
+                    checkConstraint: "balance >= 0"
+
+        - createTable:
+            tableName: account_transaction
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: account_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_txn_account
+                    references: account(id)
+              - column:
+                  name: amount
+                  type: numeric(15,2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: currency
+                  type: char(3)
+              - column:
+                  name: type
+                  type: varchar(10)
+              - column:
+                  name: created_at
+                  type: timestamp
+                  defaultValueComputed: current_timestamp

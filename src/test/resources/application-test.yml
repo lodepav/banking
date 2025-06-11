@@ -1,0 +1,5 @@
+spring:
+  liquibase:
+    contexts: test
+  datasource:
+    url: jdbc:tc:postgresql:15-alpine:///banking?TC_TMPFS=/testtmpfs:rw

@@ -1,0 +1,54 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert-test-data
+      author: lodepav
+      context: dev,test
+      comment: "Insert test accounts for development and testing"
+      changes:
+        - insert:
+            tableName: account
+            columns:
+              - column:
+                  name: id
+                  value: "uuid_generate_v4()"
+              - column:
+                  name: client_id
+                  value: "client-1"
+              - column:
+                  name: currency
+                  value: "USD"
+              - column:
+                  name: balance
+                  valueNumeric: "1000.00"
+
+        - insert:
+            tableName: account
+            columns:
+              - column:
+                  name: id
+                  value: "uuid_generate_v4()"
+              - column:
+                  name: client_id
+                  value: "client-1"
+              - column:
+                  name: currency
+                  value: "EUR"
+              - column:
+                  name: balance
+                  valueNumeric: "500.00"
+
+        - insert:
+            tableName: account
+            columns:
+              - column:
+                  name: id
+                  value: "uuid_generate_v4()"
+              - column:
+                  name: client_id
+                  value: "client-2"
+              - column:
+                  name: currency
+                  value: "GBP"
+              - column:
+                  name: balance
+                  valueNumeric: "750.00"
