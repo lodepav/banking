@@ -1,6 +1,8 @@
 package com.example.banking.controller;
 
 import com.example.banking.dto.TransferRequest;
+import com.example.banking.dto.TransferResponse;
+import com.example.banking.dto.TransferResult;
 import com.example.banking.service.TransferService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -48,10 +50,10 @@ public class TransferController {
             }
     )
     @PostMapping
-    public ResponseEntity<Void> transferFunds(
+    public ResponseEntity<TransferResponse> transferFunds(
             @Valid @RequestBody TransferRequest request
     ) {
-        transferService.transferFunds(request);
-        return ResponseEntity.ok().build();
+        TransferResult result = transferService.transferFunds(request);
+        return ResponseEntity.ok(TransferResponse.fromTransferResult(result));
     }
 }
