@@ -2,6 +2,7 @@ package com.example.banking.service;
 
 import com.example.banking.domain.*;
 import com.example.banking.dto.TransferRequest;
+import com.example.banking.dto.TransferResult;
 import com.example.banking.exception.*;
 import com.example.banking.repository.AccountRepository;
 import com.example.banking.repository.TransactionRepository;
@@ -23,7 +24,7 @@ public class TransferService {
     private final ExchangeRateService exchangeRateService;
 
     @Transactional
-    public void transferFunds(TransferRequest request) {
+    public TransferResult transferFunds(TransferRequest request) {
         // Prevent same account transfer
         if (request.fromAccountId().equals(request.toAccountId())) {
             throw new SameAccountTransferException("Cannot transfer to the same account");
@@ -43,7 +44,7 @@ public class TransferService {
                 .orElseThrow(() -> new AccountNotFoundException(accountIds.get(1)));
 
         // Reassign sender/receiver based on request
-        if (accountIds.get(0).equals(request.toAccountId())) {
+        if (accountIds.getFirst().equals(request.toAccountId())) {
             Account temp = sender;
             sender = receiver;
             receiver = temp;
@@ -58,17 +59,18 @@ public class TransferService {
         }
 
         // Convert amount if currencies differ
+        BigDecimal exchangeRate = BigDecimal.ONE;
         BigDecimal amountToDebit = request.amount();
+
         if (!sender.getCurrency().equals(request.currency())) {
-            BigDecimal rate = exchangeRateService.getExchangeRate(
+            exchangeRate = exchangeRateService.getExchangeRate(
                     request.currency(),
                     sender.getCurrency()
             );
-            amountToDebit = request.amount().multiply(rate)
+            amountToDebit = request.amount().multiply(exchangeRate)
                     .setScale(2, RoundingMode.HALF_EVEN);
         }
 
-        // Perform balance updates
         sender.debit(amountToDebit);
         receiver.credit(request.amount());
 
@@ -76,18 +78,46 @@ public class TransferService {
         accountRepository.save(sender);
         accountRepository.save(receiver);
 
-        // Record transactions
-        recordTransactions(sender, receiver, amountToDebit, request.amount());
+        // Record transactions and get correlation ID
+        UUID correlationId = recordTransactions(
+                sender,
+                receiver,
+                amountToDebit,
+                request.amount(),
+                exchangeRate
+        );
+
+        // Return transfer result with all necessary details
+        return new TransferResult(
+                correlationId,
+                amountToDebit,
+                sender.getCurrency(),
+                request.amount(),
+                receiver.getCurrency(),
+                exchangeRate,
+                sender.getBalance(),  // New balance after transfer
+                receiver.getBalance()  // New balance after transfer
+        );
     }
 
-    private void recordTransactions(
+    private UUID recordTransactions(
             Account sender,
             Account receiver,
             BigDecimal debitAmount,
-            BigDecimal creditAmount
+            BigDecimal creditAmount,
+            BigDecimal exchangeRate
     ) {
         UUID correlationId = UUID.randomUUID();
         Instant now = Instant.now();
+
+        // Build description with exchange rate info
+        String description = "Transfer to " + receiver.getId();
+        if (!exchangeRate.equals(BigDecimal.ONE)) {
+            description += String.format(" (Rate: %s %s/%s)",
+                    exchangeRate.stripTrailingZeros().toPlainString(),
+                    sender.getCurrency(),
+                    receiver.getCurrency());
+        }
 
         // Sender transaction (outflow)
         AccountTransaction debitTransaction = AccountTransaction.builder()
@@ -97,7 +127,7 @@ public class TransferService {
                 .type(AccountTransaction.TransactionType.TRANSFER_OUT)
                 .correlationId(correlationId)
                 .createdAt(now)
-                .description("Transfer to " + receiver.getId())
+                .description(description)
                 .build();
 
         // Receiver transaction (inflow)
@@ -112,5 +142,7 @@ public class TransferService {
                 .build();
 
         transactionRepository.saveAll(List.of(debitTransaction, creditTransaction));
+
+        return correlationId;
     }
 }

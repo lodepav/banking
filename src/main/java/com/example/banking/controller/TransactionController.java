@@ -1,6 +1,7 @@
 package com.example.banking.controller;
 
 import com.example.banking.domain.AccountTransaction;
+import com.example.banking.dto.PagedResponse;
 import com.example.banking.dto.TransactionResponse;
 import com.example.banking.service.TransactionService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -11,6 +12,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -62,10 +64,16 @@ public class TransactionController {
             @RequestParam(defaultValue = "10") int limit
     ) {
         Pageable pageable = PageRequest.of(offset / limit, limit);
-        List<AccountTransaction> transactions = transactionService.getAccountTransactions(accountId, pageable);
-        List<TransactionResponse> response = transactions.stream()
+        Page<AccountTransaction> page = transactionService.getAccountTransactions(accountId, pageable);
+        List<TransactionResponse> content = page.getContent().stream()
                 .map(TransactionResponse::fromDomain)
                 .toList();
-        return ResponseEntity.ok(response);
+
+        return ResponseEntity.ok(new PagedResponse<>(
+                content,
+                offset,
+                limit,
+                page.getTotalElements()
+        ).items());
     }
 }

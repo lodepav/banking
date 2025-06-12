@@ -20,7 +20,7 @@ import java.util.UUID;
 public class AccountTransaction {
 
     public enum TransactionType {
-        DEPOSIT, WITHDRAWAL, TRANSFER_IN, TRANSFER_OUT
+        TRANSFER_IN, TRANSFER_OUT
     }
 
     @Id

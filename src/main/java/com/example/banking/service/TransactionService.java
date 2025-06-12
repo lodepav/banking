@@ -5,10 +5,10 @@ import com.example.banking.exception.AccountNotFoundException;
 import com.example.banking.repository.AccountRepository;
 import com.example.banking.repository.TransactionRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -18,7 +18,7 @@ public class TransactionService {
     private final TransactionRepository transactionRepository;
     private final AccountRepository accountRepository;
 
-    public List<AccountTransaction> getAccountTransactions(UUID accountId, Pageable pageable) {
+    public Page<AccountTransaction> getAccountTransactions(UUID accountId, Pageable pageable) {
         // Validate account exists
         if (!accountRepository.existsById(accountId)) {
             throw new AccountNotFoundException(accountId);
