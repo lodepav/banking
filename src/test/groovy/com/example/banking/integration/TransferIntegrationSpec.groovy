@@ -4,25 +4,25 @@ import com.example.banking.domain.Account
 import com.example.banking.dto.TransferRequest
 import com.example.banking.exception.SameAccountTransferException
 import com.example.banking.repository.AccountRepository
+import com.example.banking.repository.TransactionRepository
 import com.example.banking.service.TransferService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.data.jpa.domain.Specification
 import org.springframework.test.context.ActiveProfiles
-import spock.util.concurrent.PollingConditions
-import testutil.TestContainerConfiguration
-
-import java.math.BigDecimal
+import spock.lang.Specification
 
 @SpringBootTest
 @ActiveProfiles("test")
-class TransferIntegrationSpec extends Specification implements TestContainerConfiguration {
+class TransferIntegrationSpec extends Specification {
 
     @Autowired
     TransferService transferService
 
     @Autowired
     AccountRepository accountRepository
+
+    @Autowired
+    TransactionRepository transactionRepository
 
     def "should maintain consistency during concurrent transfers"() {
         given: "An account with initial balance"

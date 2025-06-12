@@ -1,0 +1,92 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1749728182765-1
+      author: pavel
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_account
+                  name: id
+                  type: UUID
+              - column:
+                  constraints:
+                    nullable: false
+                  name: client_id
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: currency
+                  type: VARCHAR(3)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: balance
+                  type: DECIMAL(15, 2)
+              - column:
+                  name: created_at
+                  type: DATETIME
+            tableName: account
+  - changeSet:
+      id: 1749728182765-2
+      author: pavel
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_account_transaction
+                  name: id
+                  type: UUID
+              - column:
+                  constraints:
+                    nullable: false
+                  name: account_id
+                  type: UUID
+              - column:
+                  constraints:
+                    nullable: false
+                  name: amount
+                  type: DECIMAL(15, 2)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: currency
+                  type: VARCHAR(3)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: type
+                  type: VARCHAR(15)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: created_at
+                  type: DATETIME
+              - column:
+                  name: description
+                  type: VARCHAR(255)
+              - column:
+                  name: correlation_id
+                  type: UUID
+            tableName: account_transaction
+  - changeSet:
+      id: 1749728182765-3
+      author: pavel
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: account_id
+            baseTableName: account_transaction
+            constraintName: FK_ACCOUNT_TRANSACTION_ON_ACCOUNT
+            referencedColumnNames: id
+            referencedTableName: account
+

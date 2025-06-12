@@ -1,20 +1,17 @@
 package com.example.banking.repository
 
 
-import net.bytebuddy.utility.dispatcher.JavaDispatcher
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.data.jpa.domain.Specification
 import org.springframework.test.context.ActiveProfiles
-import org.testcontainers.containers.PostgreSQLContainer
-import org.testcontainers.spock.Testcontainers
+import spock.lang.Specification
 
-@Testcontainers
+
 @SpringBootTest
 @ActiveProfiles("test")
 class AccountRepositorySpec extends Specification {
 
-    @JavaDispatcher.Container
+
     static PostgreSQLContainer postgres = new PostgreSQLContainer("postgres:15-alpine")
 
     @Autowired

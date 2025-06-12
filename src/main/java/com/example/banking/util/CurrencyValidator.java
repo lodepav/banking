@@ -1,20 +1,20 @@
 package com.example.banking.util;
 
-import com.example.banking.exception.InvalidCurrencyException;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
+
 import java.util.Currency;
 
-public class CurrencyValidator {
+public class CurrencyValidator
+        implements ConstraintValidator<ValidCurrency, String> {
 
-    private CurrencyValidator(){}
-
-    public static void validateCurrencyCode(String currencyCode) {
+    @Override
+    public boolean isValid(String value, ConstraintValidatorContext context) {
         try {
-            Currency.getInstance(currencyCode);
-        } catch (IllegalArgumentException | NullPointerException _) {
-            throw new InvalidCurrencyException(
-                    "Invalid currency code: " + currencyCode +
-                            ". Must be a valid ISO 4217 code."
-            );
+            Currency.getInstance(value);
+            return true;
+        } catch (Exception _) {
+            return false;
         }
     }
 }

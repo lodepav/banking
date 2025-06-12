@@ -37,7 +37,7 @@ public class TransferService {
         Collections.sort(accountIds);
 
         Account sender = accountRepository.findByIdWithLock(accountIds.get(0))
-                .orElseThrow(() -> new AccountNotFoundException(accountIds.get(0)));
+                .orElseThrow(() -> new AccountNotFoundException(accountIds.getFirst()));
 
         Account receiver = accountRepository.findByIdWithLock(accountIds.get(1))
                 .orElseThrow(() -> new AccountNotFoundException(accountIds.get(1)));

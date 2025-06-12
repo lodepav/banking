@@ -1,7 +1,7 @@
 package com.example.banking.domain;
 
 import com.example.banking.exception.InsufficientFundsException;
-import com.example.banking.util.CurrencyValidator;
+import com.example.banking.util.ValidCurrency;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
@@ -29,10 +29,11 @@ public class Account {
     private String clientId;
 
     @Column(nullable = false, length = 3)
+    @ValidCurrency
     private String currency;
 
     @NotNull
-    @DecimalMin(value = "0.00", inclusive = true)
+    @DecimalMin(value = "0.00")
     @Digits(integer = 15, fraction = 2)
     @Column(nullable = false, precision = 15, scale = 2)
     private BigDecimal balance;
@@ -56,12 +57,5 @@ public class Account {
             );
         }
         this.balance = newBalance;
-    }
-
-    // Validate currency format
-    @PrePersist
-    @PreUpdate
-    private void validateCurrency() {
-        CurrencyValidator.validateCurrencyCode(this.currency);
     }
 }

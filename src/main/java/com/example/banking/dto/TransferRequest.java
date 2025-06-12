@@ -1,5 +1,6 @@
 package com.example.banking.dto;
 
+import com.example.banking.util.ValidCurrency;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
 
@@ -25,5 +26,6 @@ public record TransferRequest(
         @NotBlank
         @Size(min = 3, max = 3)
         @Schema(description = "Currency of the transfer amount", example = "USD")
+        @ValidCurrency
         String currency
 ) {}

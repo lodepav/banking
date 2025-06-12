@@ -14,14 +14,16 @@ public class ExchangeRateClient {
 
     private final RestTemplate restTemplate = new RestTemplate();
 
-    @Value("${exchange-rate.api.url:https://api.exchangerate.host/latest}")
+    @Value("${exchange-rate.api.url:https://openexchangerates.org/api/latest.json}")
     private String apiUrl;
 
     public BigDecimal fetchExchangeRate(String fromCurrency, String toCurrency) {
         String url = UriComponentsBuilder.fromUriString(apiUrl)
+                .queryParam("app_Id", "my-app-id")
                 .queryParam("base", fromCurrency)
                 .queryParam("symbols", toCurrency)
-                .queryParam("places", 6)
+                .queryParam("prettyprint", false)
+                .queryParam("show_alternative", false)
                 .toUriString();
 
         Map<?, ?> response = restTemplate.getForObject(url, Map.class);

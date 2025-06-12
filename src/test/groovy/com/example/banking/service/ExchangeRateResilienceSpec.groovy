@@ -1,18 +1,10 @@
 package com.example.banking.service
 
 import io.github.resilience4j.circuitbreaker.CircuitBreakerRegistry
-import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig
-import jakarta.persistence.criteria.CriteriaBuilder
-import jakarta.persistence.criteria.CriteriaQuery
-import jakarta.persistence.criteria.Predicate
-import jakarta.persistence.criteria.Root
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.data.jpa.domain.Specification
-import org.springframework.lang.Nullable
+import spock.lang.Specification
 import spock.util.concurrent.PollingConditions
-
-import java.math.BigDecimal
 
 @SpringBootTest
 class ExchangeRateResilienceSpec extends Specification {
@@ -33,7 +25,7 @@ class ExchangeRateResilienceSpec extends Specification {
 
         when: "External service starts failing"
         // Simulate service failure (implementation depends on your HTTP client)
-        mockServerFailure(true)
+        mockServerFailure()
 
         and: "Fetch rate during outage"
         BigDecimal cachedRate = exchangeRateService.getExchangeRate("USD", "EUR")
@@ -66,7 +58,7 @@ class ExchangeRateResilienceSpec extends Specification {
         rate != null
     }
 
-    private void mockServerFailure(boolean fail) {
+    private void mockServerFailure() {
         // Implementation depends on HTTP client
         // Example for MockRestServiceServer:
         // server.expect(any()).andRespond(withServerError())

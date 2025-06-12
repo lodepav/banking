@@ -1,7 +1,7 @@
 databaseChangeLog:
   - changeSet:
       id: insert-test-data
-      author: lodepav
+      author: pavel
       context: dev,test
       comment: "Insert test accounts for development and testing"
       changes:
@@ -10,7 +10,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                  value: "uuid_generate_v4()"
+                  value: "7777aa94-22f9-410b-bd6e-8e636fc97f64"
               - column:
                   name: client_id
                   value: "client-1"
@@ -26,7 +26,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                  value: "uuid_generate_v4()"
+                  value: "5e66f658-a92a-4f38-bfcd-4a4cb641a766"
               - column:
                   name: client_id
                   value: "client-1"
@@ -42,7 +42,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                  value: "uuid_generate_v4()"
+                  value: "8801e609-e6cb-4b80-87d6-a2db683eff67"
               - column:
                   name: client_id
                   value: "client-2"

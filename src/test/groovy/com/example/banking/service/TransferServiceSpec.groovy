@@ -5,9 +5,11 @@ import com.example.banking.dto.TransferRequest
 import com.example.banking.exception.*
 import com.example.banking.repository.AccountRepository
 import com.example.banking.repository.TransactionRepository
-import org.springframework.data.jpa.domain.Specification
+import org.springframework.boot.test.context.SpringBootTest
+import spock.lang.Specification
 import spock.lang.Subject
 
+@SpringBootTest
 class TransferServiceSpec extends Specification {
 
     AccountRepository accountRepository = Mock()

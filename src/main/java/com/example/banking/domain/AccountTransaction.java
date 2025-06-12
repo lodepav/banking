@@ -1,6 +1,6 @@
 package com.example.banking.domain;
 
-import com.example.banking.util.CurrencyValidator;
+import com.example.banking.util.ValidCurrency;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
@@ -40,6 +40,7 @@ public class AccountTransaction {
 
     @NotNull
     @Column(nullable = false, length = 3)
+    @ValidCurrency
     private String currency;
 
     @NotNull
@@ -57,11 +58,4 @@ public class AccountTransaction {
     // Reference for transfers (links IN/OUT transactions)
     @Column(name = "correlation_id")
     private UUID correlationId;
-
-    // Validate currency format
-    @PrePersist
-    @PreUpdate
-    private void validateCurrency() {
-        CurrencyValidator.validateCurrencyCode(this.currency);
-    }
 }
