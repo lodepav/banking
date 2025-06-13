@@ -26,7 +26,7 @@ class TransferServiceSpec extends Specification {
         def request = new TransferRequest(sender.id, receiver.id, new BigDecimal("100.00"), "USD")
 
         and: "Accounts are locked in ID order"
-        accountRepository.findByIdWithLock(_) >>> [Optional.of(sender), Optional.of(receiver)]
+        accountRepository.findByIdWithLock(_ as UUID) >>> [Optional.of(sender), Optional.of(receiver)]
 
         when: "Transfer is executed"
         transferService.transferFunds(request)
@@ -47,7 +47,7 @@ class TransferServiceSpec extends Specification {
 
         and: "Exchange rate setup"
         exchangeRateService.getExchangeRate("EUR", "USD") >> new BigDecimal("1.20")
-        accountRepository.findByIdWithLock(_) >>> [Optional.of(sender), Optional.of(receiver)]
+        accountRepository.findByIdWithLock(_ as UUID) >>> [Optional.of(sender), Optional.of(receiver)]
 
         when: "Transfer is executed"
         transferService.transferFunds(request)
@@ -66,7 +66,7 @@ class TransferServiceSpec extends Specification {
         def request = new TransferRequest(sender.id, receiver.id, new BigDecimal("100.00"), "EUR")
 
         and: "Accounts loaded"
-        accountRepository.findByIdWithLock(_) >>> [Optional.of(sender), Optional.of(receiver)]
+        accountRepository.findByIdWithLock(_ as UUID) >>> [Optional.of(sender), Optional.of(receiver)]
 
         when: "Transfer is executed"
         transferService.transferFunds(request)
