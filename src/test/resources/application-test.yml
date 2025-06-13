@@ -2,4 +2,12 @@ spring:
   liquibase:
     contexts: test
   datasource:
-    url: jdbc:tc:postgresql:15-alpine:///banking?TC_TMPFS=/testtmpfs:rw
+    url: jdbc:tc:postgresql:latest:///banking?TC_TMPFS=/testtmpfs:rw
+  cache:
+    type: caffeine
+    caffeine:
+      spec: maximumSize=1000,expireAfterWrite=5s
+
+exchange-rate:
+  api:
+    url: http://invalid-url-for-tests

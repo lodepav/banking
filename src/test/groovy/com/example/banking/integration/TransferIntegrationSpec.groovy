@@ -9,6 +9,7 @@ import com.example.banking.service.TransferService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ActiveProfiles
+import org.springframework.data.domain.PageRequest
 import spock.lang.Specification
 
 @SpringBootTest
@@ -40,7 +41,7 @@ class TransferIntegrationSpec extends Specification {
             try {
                 transferService.transferFunds(req)
                 "SUCCESS"
-            } catch (SameAccountTransferException e) {
+            } catch (SameAccountTransferException ignored) {
                 "FAILURE"
             }
         }.toList()
@@ -74,8 +75,9 @@ class TransferIntegrationSpec extends Specification {
         updatedReceiver.balance == new BigDecimal("600.00")
 
         and: "Transactions are recorded"
-        def senderTxns = transactionRepository.findByAccountId(sender.id)
-        def receiverTxns = transactionRepository.findByAccountId(receiver.id)
+        def pageable = PageRequest.of(0, 10)
+        def senderTxns = transactionRepository.findTransactionsByAccountId(sender.id, pageable)
+        def receiverTxns = transactionRepository.findTransactionsByAccountId(receiver.id, pageable)
         senderTxns.size() == 1
         receiverTxns.size() == 1
         senderTxns[0].amount == new BigDecimal("-100.00")

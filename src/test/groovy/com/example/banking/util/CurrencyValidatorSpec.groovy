@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean
 import spock.lang.Specification
+import spock.lang.Subject
 import spock.lang.Unroll
 
 @SpringBootTest
@@ -17,6 +18,7 @@ class CurrencyValidatorSpec extends Specification {
     @Autowired
     Validator validator
 
+    @Subject
     def validatorUnderTest = new CurrencyValidator()
 
     def "standalone isValid should accept valid and reject invalid"() {

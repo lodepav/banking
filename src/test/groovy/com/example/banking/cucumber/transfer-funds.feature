@@ -21,6 +21,9 @@ Feature: Fund Transfers
     Then the response status should be 200
     And account "acc-1" should have balance "1000.00 - (100.00 / 0.92)" USD
     And account "acc-2" should have balance "600.00" EUR
+    And the transfer response should show debited "108.70" "USD" from "acc-1"
+    And the transfer response should show credited "100.00" "EUR" to "acc-2"
+    And the transfer response should show exchange rate "0.92"
 
   Scenario: Insufficient funds
     When I transfer "2000.00" "USD" from account "acc-1" to account "acc-3"
