@@ -9,6 +9,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.time.Instant;
 import java.util.stream.Collectors;
@@ -47,6 +48,18 @@ public class GlobalExceptionHandler {
                     .collect(Collectors.joining("; "));
         }
         return buildErrorResponse(new Exception(message), HttpStatus.BAD_REQUEST, request);
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<ErrorResponse> handleTypeMismatch(MethodArgumentTypeMismatchException ex, WebRequest req) {
+        return buildErrorResponse(
+                new Exception("Invalid parameter '" + ex.getName()),
+                HttpStatus.BAD_REQUEST, req);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ErrorResponse> handleIllegalArg(IllegalArgumentException ex, WebRequest req) {
+        return buildErrorResponse(ex, HttpStatus.BAD_REQUEST, req);
     }
 
     @ExceptionHandler(Exception.class)
