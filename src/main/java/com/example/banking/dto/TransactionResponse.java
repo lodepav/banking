@@ -1,6 +1,7 @@
 package com.example.banking.dto;
 
 import com.example.banking.domain.AccountTransaction;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.math.BigDecimal;
@@ -12,6 +13,7 @@ public record TransactionResponse(
         UUID id,
 
         @Schema(description = "Transaction amount (negative for debits)", example = "-100.00")
+        @JsonFormat(shape = JsonFormat.Shape.STRING)
         BigDecimal amount,
 
         @Schema(description = "Transaction currency", example = "USD")

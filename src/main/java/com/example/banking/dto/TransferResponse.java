@@ -1,5 +1,6 @@
 package com.example.banking.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.math.BigDecimal;
@@ -10,12 +11,14 @@ public record TransferResponse(
         UUID correlationId,
 
         @Schema(description = "Debited amount from sender")
+        @JsonFormat(shape = JsonFormat.Shape.STRING)
         BigDecimal debitedAmount,
 
         @Schema(description = "Sender account currency")
         String senderCurrency,
 
         @Schema(description = "Credited amount to receiver")
+        @JsonFormat(shape = JsonFormat.Shape.STRING)
         BigDecimal creditedAmount,
 
         @Schema(description = "Receiver account currency")

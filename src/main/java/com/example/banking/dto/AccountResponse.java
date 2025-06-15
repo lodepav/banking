@@ -1,6 +1,7 @@
 package com.example.banking.dto;
 
 import com.example.banking.domain.Account;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.math.BigDecimal;
@@ -15,6 +16,7 @@ public record AccountResponse(
         String currency,
 
         @Schema(description = "Current balance", example = "1500.75")
+        @JsonFormat(shape = JsonFormat.Shape.STRING)
         BigDecimal balance,
 
         @Schema(description = "Account creation timestamp", example = "2023-07-15T10:30:00Z")

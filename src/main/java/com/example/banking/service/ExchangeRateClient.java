@@ -19,7 +19,7 @@ public class ExchangeRateClient {
 
     public BigDecimal fetchExchangeRate(String fromCurrency, String toCurrency) {
         String url = UriComponentsBuilder.fromUriString(apiUrl)
-                .queryParam("app_Id", "my-app-id")
+                .queryParam("app_Id", "f56193b623f2491d896701ab6f0a7726")
                 .queryParam("base", fromCurrency)
                 .queryParam("symbols", toCurrency)
                 .queryParam("prettyprint", false)
