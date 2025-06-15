@@ -25,12 +25,15 @@ public record TransferResponse(
         String receiverCurrency,
 
         @Schema(description = "Exchange rate used (if applicable)")
+        @JsonFormat(shape = JsonFormat.Shape.STRING)
         BigDecimal exchangeRate,
 
         @Schema(description = "New sender account balance")
+        @JsonFormat(shape = JsonFormat.Shape.STRING)
         BigDecimal senderNewBalance,
 
         @Schema(description = "New receiver account balance")
+        @JsonFormat(shape = JsonFormat.Shape.STRING)
         BigDecimal receiverNewBalance
 ) {
     public static TransferResponse fromTransferResult(TransferResult result) {
