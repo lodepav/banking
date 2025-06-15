@@ -14,10 +14,20 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import java.time.Instant;
 import java.util.stream.Collectors;
 
+/**
+ * The type Global exception handler.
+ */
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    /**
+     * Handle not found response entity.
+     *
+     * @param ex      the ex
+     * @param request the request
+     * @return the response entity
+     */
     @ExceptionHandler({
             AccountNotFoundException.class,
             ClientNotFoundException.class
@@ -26,6 +36,13 @@ public class GlobalExceptionHandler {
         return buildErrorResponse(ex, HttpStatus.NOT_FOUND, request);
     }
 
+    /**
+     * Handle business rule violation response entity.
+     *
+     * @param ex      the ex
+     * @param request the request
+     * @return the response entity
+     */
     @ExceptionHandler({
             CurrencyMismatchException.class,
             InsufficientFundsException.class,
@@ -36,6 +53,13 @@ public class GlobalExceptionHandler {
         return buildErrorResponse(ex, HttpStatus.UNPROCESSABLE_ENTITY, request);
     }
 
+    /**
+     * Handle validation exception response entity.
+     *
+     * @param ex      the ex
+     * @param request the request
+     * @return the response entity
+     */
     @ExceptionHandler({
             ConstraintViolationException.class,
             MethodArgumentNotValidException.class
@@ -50,6 +74,13 @@ public class GlobalExceptionHandler {
         return buildErrorResponse(new Exception(message), HttpStatus.BAD_REQUEST, request);
     }
 
+    /**
+     * Handle type mismatch response entity.
+     *
+     * @param ex  the ex
+     * @param req the req
+     * @return the response entity
+     */
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<ErrorResponse> handleTypeMismatch(MethodArgumentTypeMismatchException ex, WebRequest req) {
         return buildErrorResponse(
@@ -57,11 +88,25 @@ public class GlobalExceptionHandler {
                 HttpStatus.BAD_REQUEST, req);
     }
 
+    /**
+     * Handle illegal arg response entity.
+     *
+     * @param ex  the ex
+     * @param req the req
+     * @return the response entity
+     */
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ErrorResponse> handleIllegalArg(IllegalArgumentException ex, WebRequest req) {
         return buildErrorResponse(ex, HttpStatus.BAD_REQUEST, req);
     }
 
+    /**
+     * Handle all exceptions response entity.
+     *
+     * @param ex      the ex
+     * @param request the request
+     * @return the response entity
+     */
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleAllExceptions(Exception ex, WebRequest request) {
         log.error("Internal server error", ex);

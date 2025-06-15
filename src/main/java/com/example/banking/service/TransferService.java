@@ -15,6 +15,9 @@ import java.math.RoundingMode;
 import java.time.Instant;
 import java.util.*;
 
+/**
+ * The type Transfer service.
+ */
 @Service
 @RequiredArgsConstructor
 public class TransferService {
@@ -23,6 +26,12 @@ public class TransferService {
     private final TransactionRepository transactionRepository;
     private final ExchangeRateService exchangeRateService;
 
+    /**
+     * Transfer funds transfer result.
+     *
+     * @param request the request
+     * @return the transfer result
+     */
     @Transactional
     public TransferResult transferFunds(TransferRequest request) {
         // Prevent same account transfer

@@ -9,6 +9,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.math.BigDecimal;
 import java.util.Map;
 
+/**
+ * The type Exchange rate client.
+ */
 @Component
 public class ExchangeRateClient {
 
@@ -20,6 +23,13 @@ public class ExchangeRateClient {
     @Value("${exchange-rate.api.key}")
     private String apiKey;
 
+    /**
+     * Fetch exchange rate big decimal.
+     *
+     * @param fromCurrency the from currency
+     * @param toCurrency   the to currency
+     * @return the big decimal
+     */
     public BigDecimal fetchExchangeRate(String fromCurrency, String toCurrency) {
         String url = UriComponentsBuilder.fromUriString(apiUrl)
                 .queryParam("app_Id", apiKey)

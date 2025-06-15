@@ -7,6 +7,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
 import java.util.UUID;
 
+/**
+ * The type Transaction response.
+ */
 @Schema(description = "Transaction record")
 public record TransactionResponse(
         @Schema(description = "Transaction ID", example = "550e8400-e29b-41d4-a716-446655440000")
@@ -31,6 +34,12 @@ public record TransactionResponse(
         @Schema(description = "Correlation ID for linked transactions", example = "550e8400-e29b-41d4-a716-446655440000")
         UUID correlationId
 ) {
+    /**
+     * From domain transaction response.
+     *
+     * @param transaction the transaction
+     * @return the transaction response
+     */
     public static TransactionResponse fromDomain(AccountTransaction transaction) {
         return new TransactionResponse(
                 transaction.getId(),

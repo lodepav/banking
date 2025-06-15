@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * The type Transfer controller.
+ */
 @RestController
 @RequestMapping("/transfers")
 @RequiredArgsConstructor
@@ -24,6 +27,12 @@ public class TransferController {
 
     private final TransferService transferService;
 
+    /**
+     * Transfer funds response entity.
+     *
+     * @param request the request
+     * @return the response entity
+     */
     @Operation(
             summary = "Transfer funds",
             description = "Transfer funds between accounts with currency conversion",

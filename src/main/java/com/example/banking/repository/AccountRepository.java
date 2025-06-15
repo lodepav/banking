@@ -11,11 +11,26 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+/**
+ * The interface Account repository.
+ */
 public interface AccountRepository extends JpaRepository<Account, UUID> {
-    // Lock account for update
+    /**
+     * Find by id with lock optional.
+     *
+     * @param id the id
+     * @return the optional
+     */
+// Lock account for update
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("SELECT a FROM Account a WHERE a.id = :id")
     Optional<Account> findByIdWithLock(@Param("id") UUID id);
 
+    /**
+     * Find by client id list.
+     *
+     * @param clientId the client id
+     * @return the list
+     */
     List<Account> findByClientId(String clientId);
 }

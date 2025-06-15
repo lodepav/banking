@@ -11,6 +11,9 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.UUID;
 
+/**
+ * The type Account.
+ */
 @Entity
 @Table(name = "account")
 @Getter
@@ -42,11 +45,21 @@ public class Account {
     @Column(name = "created_at", updatable = false)
     private Instant createdAt;
 
-    // Business logic method for safe balance updates
+    /**
+     * Credit.
+     *
+     * @param amount the amount
+     */
+// Business logic method for safe balance updates
     public void credit(BigDecimal amount) {
         this.balance = this.balance.add(amount);
     }
 
+    /**
+     * Debit.
+     *
+     * @param amount the amount
+     */
     public void debit(BigDecimal amount) {
         BigDecimal newBalance = this.balance.subtract(amount);
         if (newBalance.compareTo(BigDecimal.ZERO) < 0) {

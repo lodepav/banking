@@ -20,6 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * The type Account controller.
+ */
 @Validated
 @RestController
 @RequestMapping("/clients")
@@ -28,6 +31,12 @@ public class AccountController {
 
     private final AccountService accountService;
 
+    /**
+     * Gets client accounts.
+     *
+     * @param clientId the client id
+     * @return the client accounts
+     */
     @Operation(
             summary = "Get client accounts",
             description = "Returns all accounts for a given client identifier",

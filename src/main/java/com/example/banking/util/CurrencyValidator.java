@@ -5,6 +5,9 @@ import jakarta.validation.ConstraintValidatorContext;
 
 import java.util.Currency;
 
+/**
+ * The type Currency validator.
+ */
 public class CurrencyValidator
         implements ConstraintValidator<ValidCurrency, String> {
 

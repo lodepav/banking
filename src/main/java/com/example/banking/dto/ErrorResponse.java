@@ -5,6 +5,9 @@ import lombok.Builder;
 
 import java.time.Instant;
 
+/**
+ * The type Error response.
+ */
 @Builder
 @Schema(description = "Error response structure")
 public record ErrorResponse(

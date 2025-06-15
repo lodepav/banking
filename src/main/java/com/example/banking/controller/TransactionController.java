@@ -25,6 +25,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * The type Transaction controller.
+ */
 @Validated
 @RestController
 @RequiredArgsConstructor
@@ -32,6 +35,14 @@ public class TransactionController {
 
     private final TransactionService transactionService;
 
+    /**
+     * Gets account transactions.
+     *
+     * @param accountId the account id
+     * @param offset    the offset
+     * @param limit     the limit
+     * @return the account transactions
+     */
     @Operation(
             summary = "Get account transactions",
             description = "Returns transaction history for an account with pagination",

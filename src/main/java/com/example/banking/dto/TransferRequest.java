@@ -7,6 +7,9 @@ import jakarta.validation.constraints.*;
 import java.math.BigDecimal;
 import java.util.UUID;
 
+/**
+ * The type Transfer request.
+ */
 @Schema(description = "Funds transfer request")
 public record TransferRequest(
         @NotNull

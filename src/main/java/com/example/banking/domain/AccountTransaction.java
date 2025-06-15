@@ -10,6 +10,9 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.UUID;
 
+/**
+ * The type Account transaction.
+ */
 @Entity
 @Table(name = "account_transaction")
 @Getter
@@ -19,8 +22,18 @@ import java.util.UUID;
 @Builder
 public class AccountTransaction {
 
+    /**
+     * The enum Transaction type.
+     */
     public enum TransactionType {
-        TRANSFER_IN, TRANSFER_OUT
+        /**
+         * Transfer in transaction type.
+         */
+        TRANSFER_IN,
+        /**
+         * Transfer out transaction type.
+         */
+        TRANSFER_OUT
     }
 
     @Id

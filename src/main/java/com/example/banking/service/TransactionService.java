@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
+/**
+ * The type Transaction service.
+ */
 @Service
 @RequiredArgsConstructor
 public class TransactionService {
@@ -18,6 +21,13 @@ public class TransactionService {
     private final TransactionRepository transactionRepository;
     private final AccountRepository accountRepository;
 
+    /**
+     * Gets account transactions.
+     *
+     * @param accountId the account id
+     * @param pageable  the pageable
+     * @return the account transactions
+     */
     public Page<AccountTransaction> getAccountTransactions(UUID accountId, Pageable pageable) {
         // Validate account exists
         if (!accountRepository.existsById(accountId)) {

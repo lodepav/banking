@@ -6,6 +6,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
 import java.util.UUID;
 
+/**
+ * The type Transfer response.
+ */
 public record TransferResponse(
         @Schema(description = "Unique correlation ID for the transfer")
         UUID correlationId,
@@ -36,6 +39,12 @@ public record TransferResponse(
         @JsonFormat(shape = JsonFormat.Shape.STRING)
         BigDecimal receiverNewBalance
 ) {
+    /**
+     * From transfer result transfer response.
+     *
+     * @param result the result
+     * @return the transfer response
+     */
     public static TransferResponse fromTransferResult(TransferResult result) {
         return new TransferResponse(
                 result.correlationId(),

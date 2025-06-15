@@ -8,12 +8,21 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * The type Account service.
+ */
 @Service
 @RequiredArgsConstructor
 public class AccountService {
 
     private final AccountRepository accountRepository;
 
+    /**
+     * Gets client accounts.
+     *
+     * @param clientId the client id
+     * @return the client accounts
+     */
     public List<Account> getClientAccounts(String clientId) {
         List<Account> accounts = accountRepository.findByClientId(clientId);
         if (accounts.isEmpty()) {
